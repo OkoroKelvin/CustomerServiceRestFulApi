@@ -84,11 +84,8 @@ class CustomerControllerTest {
 
         this.mockMvc.perform(get("/api/v1/"))
                 .andDo(print())
-                // test status
                 .andExpect(status().isOk())
-                // test contentType
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // test returned response
                 .andExpect(jsonPath("$.status", is("success")))
                 .andExpect(jsonPath("$.data.pageNumber", is(1)))
                 .andExpect(jsonPath("$.data.TotalNumberOfCustomers", is(2)))
@@ -103,11 +100,8 @@ class CustomerControllerTest {
 
         this.mockMvc.perform(get("/api/v1/?page=1&size=5"))
                 .andDo(print())
-                // test status
                 .andExpect(status().isOk())
-                // test contentType
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // test returned response
                 .andExpect(jsonPath("$.status", is("success")))
                 .andExpect(jsonPath("$.data.pageNumber", is(1)))
                 .andExpect(jsonPath("$.data.TotalNumberOfCustomers", is(2)))
@@ -125,11 +119,8 @@ class CustomerControllerTest {
         doThrow(ApplicationException.class).when(customerService).findAll(-1, 5);
         this.mockMvc.perform(get("/api/v1/?page=-1&size=5"))
                 .andDo(print())
-                // test status
                 .andExpect(status().isBadRequest())
-                // test contentType
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // test resolved exception
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ApplicationException));
     }
 
@@ -155,12 +146,8 @@ class CustomerControllerTest {
                         .content("{\"firstName\": \"First Name\", \"lastName\": \"Last Name\", \"email\": \"first@gmail.com\"}")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-
-                // test status
                 .andExpect(status().isCreated())
-                // test contentType
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // test returned response
                 .andExpect(jsonPath("$.status", is("success")))
                 .andExpect(jsonPath("$.data.customer.firstName", is(customer1.getFirstName())))
                 .andExpect(jsonPath("$.data.customer.email", is(customer1.getEmail())));
@@ -180,10 +167,7 @@ class CustomerControllerTest {
                         .content("{\"firstName\": \"First Name\", \"lastName\": \"Last Name\", \"email\": \"first@gmail\"}")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-
-                // test status
                 .andExpect(status().isBadRequest())
-                // test resolved exception
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException));
     }
 
@@ -205,11 +189,8 @@ class CustomerControllerTest {
 
         this.mockMvc.perform(get("/api/v1/1"))
                 .andDo(print())
-                // test status
                 .andExpect(status().isOk())
-                // test contentType
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // test returned response
                 .andExpect(jsonPath("$.status", is("success")))
                 .andExpect(jsonPath("$.data.customer.email", is(customer1.getEmail())));
 
@@ -221,9 +202,7 @@ class CustomerControllerTest {
         doThrow(ConstraintViolationException.class).when(customerService).findById(-1L);
         this.mockMvc.perform(post("/api/v1/-1"))
                 .andDo(print())
-                // test status
                 .andExpect(status().isBadRequest())
-                // test resolved exception
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof HttpRequestMethodNotSupportedException));
     }
 
