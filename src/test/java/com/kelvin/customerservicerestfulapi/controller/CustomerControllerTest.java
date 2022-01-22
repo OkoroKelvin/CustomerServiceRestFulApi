@@ -258,6 +258,5 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.data[\"Billing Details\"][0].customer.firstName", is(customer1.getFirstName())))
                 .andExpect(jsonPath("$.data[\"Billing Details\"][1].customer.firstName", is(customer1.getFirstName())));
 
-
     }
 }
