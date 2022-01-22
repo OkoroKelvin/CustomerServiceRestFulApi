@@ -30,22 +30,8 @@ public class CustomerController {
         return customerService.save(customerRequest);
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse getCustomer(@PathVariable Long id){
-        return customerService.findById(id);
-    }
 
-    @GetMapping(value = "/customer/{customerId}/billings", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse getCustomerBillingDetails(@PathVariable Long customerId){
-        return billingDetailService.findByCustomerId(customerId);
-    }
 
-    @PostMapping(value = "/customer/addBilling", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse addBillingToCustomer(@RequestBody BillingDetailRequest billingDetailRequest){
-        return billingDetailService.save(billingDetailRequest);
-    }
+
 
 }
