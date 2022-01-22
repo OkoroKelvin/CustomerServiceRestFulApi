@@ -1,7 +1,9 @@
 ﻿# CustomerServiceRestFulApi
 
 To set up MYSQL Data Base
+Run 
 ```
+
 create database customerdb;
 
 create user 'customer_user'@'localhost' identified by 'customer_password';
