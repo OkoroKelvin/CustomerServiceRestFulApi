@@ -37,6 +37,11 @@ public class CustomerController {
         return customerService.findById(id);
     }
 
+    @GetMapping(value = "/customer/{customerId}/billings", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getCustomerBillingDetails(@PathVariable Long customerId){
+        return billingDetailService.findByCustomerId(customerId);
+    }
 
 
 
