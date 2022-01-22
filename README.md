@@ -1,7 +1,7 @@
 ﻿# CustomerServiceRestFulApi
 
-To set up MYSQL Data Base
-##Run 
+#To set up MYSQL Data Base
+#Run 
 ```
 
 create database customerdb;
