@@ -17,6 +17,13 @@ public class CustomerController {
     private final CustomerService customerService;
     private final BillingDetailService billingDetailService;
 
+
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse saveCustomer(@RequestBody CustomerRequest customerRequest){
+        return customerService.save(customerRequest);
+    }
+
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getAllCustomer(@RequestParam(defaultValue = "1") int page,
@@ -24,11 +31,6 @@ public class CustomerController {
         return customerService.findAll(page, size);
     }
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse saveCustomer(@RequestBody CustomerRequest customerRequest){
-        return customerService.save(customerRequest);
-    }
 
 
 
