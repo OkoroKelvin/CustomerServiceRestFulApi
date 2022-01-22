@@ -1,6 +1,7 @@
 package com.kelvin.customerservicerestfulapi.service;
 
 import com.kelvin.customerservicerestfulapi.dto.ApiResponse;
+import com.kelvin.customerservicerestfulapi.dto.CustomerRequest;
 import com.kelvin.customerservicerestfulapi.model.BillingDetail;
 import com.kelvin.customerservicerestfulapi.model.Customer;
 import com.kelvin.customerservicerestfulapi.repository.BillingDetailRepository;
@@ -62,4 +63,25 @@ class CustomerServiceTest {
         assertThat((int) apiResponse.getData().get("TotalPages")).isEqualTo(1);
 
     }
+    @Test
+    @DisplayName("Test that customer details and can be saved ")
+    void saveCustomerDetails(){
+        CustomerRequest customerRequest = new CustomerRequest();
+        customerRequest.setFirstName("First Name");
+        customerRequest.setLastName("Last Name");
+        customerRequest.setEmail("first@gmail.com");
+        assertThat(customerRepository.findAll()).hasSize(5);
+        customerService.save(customerRequest);
+        assertThat(customerRepository.findAll()).hasSize(6);
+    }
+
+    @Test
+    @DisplayName("Test that finds customer by id")
+    void findCustomerById(){
+        ApiResponse apiResponse = customerService.findById(customer1.getId());
+        assertThat(apiResponse).isNotNull();
+        assertThat((Customer) apiResponse.getData().get("customer")).isNotNull();
+        assertThat(((Customer) apiResponse.getData().get("customer")).getEmail()).isEqualTo(customer1.getEmail());
+    }
+
 }
