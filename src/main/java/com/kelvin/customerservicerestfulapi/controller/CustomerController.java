@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1")
 public class CustomerController {
+
     private final CustomerService customerService;
     private final BillingDetailService billingDetailService;
 
@@ -24,6 +25,7 @@ public class CustomerController {
         return customerService.save(customerRequest);
     }
 
+
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getAllCustomer(@RequestParam(defaultValue = "1") int page,
@@ -31,11 +33,13 @@ public class CustomerController {
         return customerService.findAll(page, size);
     }
 
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getCustomer(@PathVariable Long id){
         return customerService.findById(id);
     }
+
 
     @GetMapping(value = "/customer/{customerId}/billings", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -48,9 +52,5 @@ public class CustomerController {
     public ApiResponse addBillingToCustomer(@RequestBody BillingDetailRequest billingDetailRequest){
         return billingDetailService.save(billingDetailRequest);
     }
-
-
-
-
 
 }

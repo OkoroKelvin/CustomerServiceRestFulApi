@@ -3,10 +3,12 @@ package com.kelvin.customerservicerestfulapi.util.http;
 
 import com.kelvin.customerservicerestfulapi.util.exception.ApplicationException;
 import com.kelvin.customerservicerestfulapi.util.exception.BadRequestException;
+import com.kelvin.customerservicerestfulapi.util.exception.InternalServerException;
 import com.kelvin.customerservicerestfulapi.util.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,8 +25,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public @ResponseBody
-    HttpErrorInfo handleNotFoundExceptions(HttpServletRequest request, Exception ex){
+    public @ResponseBody HttpErrorInfo handleNotFoundExceptions(HttpServletRequest request, Exception ex){
         return createHttpErrorInfo(HttpStatus.NOT_FOUND, request, ex);
     }
 
@@ -60,8 +61,22 @@ public class GlobalExceptionHandler {
         return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ApplicationException.class)
+    public @ResponseBody HttpErrorInfo handleApplicationException(HttpServletRequest request, Exception ex){
+        return createHttpErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR, request, ex);
+    }
+
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public @ResponseBody HttpErrorInfo handleBadInputException(HttpServletRequest request, Exception ex){
+        return createHttpErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR, request, ex);
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(InternalServerException.class)
     public @ResponseBody HttpErrorInfo handleInternalServerExceptions(HttpServletRequest request, Exception ex){
         return createHttpErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR, request, ex);
     }

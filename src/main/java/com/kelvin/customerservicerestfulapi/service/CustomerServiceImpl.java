@@ -2,7 +2,9 @@ package com.kelvin.customerservicerestfulapi.service;
 
 import com.kelvin.customerservicerestfulapi.dto.ApiResponse;
 import com.kelvin.customerservicerestfulapi.dto.CustomerRequest;
+import com.kelvin.customerservicerestfulapi.model.BillingDetail;
 import com.kelvin.customerservicerestfulapi.model.Customer;
+import com.kelvin.customerservicerestfulapi.repository.BillingDetailRepository;
 import com.kelvin.customerservicerestfulapi.repository.CustomerRepository;
 import com.kelvin.customerservicerestfulapi.util.exception.ApplicationException;
 import com.kelvin.customerservicerestfulapi.util.exception.NotFoundException;
@@ -12,12 +14,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+    private final BillingDetailRepository billingDetailRepository;
 
     @Override
     public ApiResponse findAll(int page, int size) {
@@ -55,6 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus("success");
         apiResponse.getData().put("customer", customer);
+        List<BillingDetail> billingDetails = billingDetailRepository.findAllByCustomerId(id);
+        apiResponse.getData().put("billings", billingDetails);
         return apiResponse;
     }
 }
