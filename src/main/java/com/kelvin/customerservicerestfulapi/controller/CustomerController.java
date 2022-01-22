@@ -43,6 +43,12 @@ public class CustomerController {
         return billingDetailService.findByCustomerId(customerId);
     }
 
+    @PostMapping(value = "/customer/addBilling", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse addBillingToCustomer(@RequestBody BillingDetailRequest billingDetailRequest){
+        return billingDetailService.save(billingDetailRequest);
+    }
+
 
 
 
