@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -64,7 +65,7 @@ class CustomerServiceTest {
 
     }
     @Test
-    @DisplayName("Test that customer details and can be saved ")
+    @DisplayName("Test that customer details can be saved ")
     void saveCustomerDetails(){
         CustomerRequest customerRequest = new CustomerRequest();
         customerRequest.setFirstName("First Name");
@@ -83,5 +84,26 @@ class CustomerServiceTest {
         assertThat((Customer) apiResponse.getData().get("customer")).isNotNull();
         assertThat(((Customer) apiResponse.getData().get("customer")).getEmail()).isEqualTo(customer1.getEmail());
     }
+
+    @Test
+    @DisplayName("Test that save exceptions are caught upon wrong input")
+    void saveThrowsErrorsAreCaught(){
+        CustomerRequest customerRequest = new CustomerRequest();
+        customerRequest.setFirstName("");
+        customerRequest.setLastName("Last Name");
+        customerRequest.setEmail("first@gmail.com");
+        assertThrows(ConstraintViolationException.class, () -> customerService.save(customerRequest));
+    }
+    @Test
+    @DisplayName("Test that exceptions are caught upon wrong email")
+    void saveThrowsOnInvalidEmail() {
+        CustomerRequest customerRequest = new CustomerRequest();
+        customerRequest.setFirstName("First Name");
+        customerRequest.setLastName("Last Name");
+        customerRequest.setEmail("email");
+
+        assertThrows(ConstraintViolationException.class, () -> customerService.save(customerRequest));
+    }
+
 
 }
