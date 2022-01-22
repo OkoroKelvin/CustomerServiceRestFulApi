@@ -31,6 +31,12 @@ public class CustomerController {
         return customerService.findAll(page, size);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getCustomer(@PathVariable Long id){
+        return customerService.findById(id);
+    }
+
 
 
 
