@@ -1,4 +1,7 @@
 package com.kelvin.customerservicerestfulapi.service;
 
-public class BillingDetailServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class BillingDetailServiceImpl implements BillingDetailService{
 }
