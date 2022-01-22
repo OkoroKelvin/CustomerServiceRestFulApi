@@ -14,5 +14,5 @@ flush privileges;
 # Controller Documentation
 
 ```
-http://localhost:8080/api/v1/swagger-ui/index.html#/customer-controller
+http://localhost:8080/api/v1/swagger-ui/index.html#/
 ```
